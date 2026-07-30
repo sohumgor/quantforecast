@@ -1,3 +1,9 @@
+# Build context for this Dockerfile must be the REPO ROOT, not frontend/ —
+# the frontend imports shared TypeScript types from ../shared/types (see
+# tsconfig.json's "@shared/*" path), which lives outside this directory.
+# With a frontend/-only build context, that directory would never be copied
+# in and `pnpm build` would fail resolving @shared/* imports.
+
 FROM node:22-slim
 
 RUN corepack enable
@@ -5,10 +11,11 @@ RUN corepack enable
 WORKDIR /app
 
 # Install dependencies first for better layer caching.
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY . .
+COPY frontend/. .
+COPY shared /shared
 
 # Next.js inlines NEXT_PUBLIC_* vars into the client bundle at build time, not
 # runtime — Render (and most Docker-based hosts) inject dashboard/render.yaml

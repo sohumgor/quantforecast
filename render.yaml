@@ -36,7 +36,10 @@ services:
     name: quantforecast-frontend
     runtime: docker
     dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
+    # Root, not ./frontend: the frontend imports shared types from
+    # ../shared/types (see frontend/Dockerfile's top comment), so the build
+    # context has to include that sibling directory too.
+    dockerContext: .
     plan: free
     envVars:
       - key: NEXT_PUBLIC_API_BASE_URL
