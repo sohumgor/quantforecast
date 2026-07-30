@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# Generated flat-file "database" (kept out of git; universal_prior.parquet is
+# the one shipped exception, added explicitly once Phase 6 produces it)
+research/price_cache/*.parquet
+research/regime_timelines/*.parquet
+research/backtests/*.parquet
+research/lookup_tables/per_ticker/*.parquet
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code local settings (machine-specific, not meant to be shared)
+.claude/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

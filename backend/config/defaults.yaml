@@ -1,0 +1,55 @@
+# Central tunables for QuantForecastPlatform. Both the API server and offline
+# research scripts (e.g. research/offline_prior_builder.py) read this file so
+# live serving and offline prior-building stay consistent.
+
+simulation:
+  default_n_sims: 5000
+  default_horizon_days: 63
+  max_n_sims: 20000
+  max_horizon_days: 252
+
+regime_detection:
+  n_states: 5
+  covariance_type: full
+  random_state: 42
+  feature_columns:
+    - log_return
+    - rolling_vol_21d
+    - momentum_10d
+    - drawdown
+    - rolling_skew_63d
+    - rolling_kurtosis_63d
+  labeling_thresholds:
+    stress_drawdown: -0.15
+    jump_kurtosis: 3.0
+    trend_momentum: 0.02
+    sideways_momentum: 0.01
+
+model_selection:
+  min_observations_threshold: 5
+  tie_epsilon: 0.02
+  composite_score_weights:
+    crps: 0.4
+    rmse: 0.3
+    directional_accuracy: 0.2
+    coverage_error: 0.1
+
+backtesting:
+  default_window_step_days: 5
+
+# Drives the automatic, ticker-specific backtest that now runs the first time
+# (or first stale time) a ticker is analyzed, so model selection is grounded
+# in that ticker's own history instead of defaulting to the universal prior.
+# n_sims/window_step_days are deliberately coarser than a live forecast's
+# defaults (simulation.default_n_sims=5000) since this runs many
+# model x window combinations and latency matters more than precision here.
+auto_backtest:
+  lookback_years: 5
+  test_fraction: 0.3
+  n_sims: 1500
+  window_step_days: 10
+  max_age_days: 7
+
+feature_engineering:
+  periods_per_year: 252
+  risk_free_rate: 0.0
