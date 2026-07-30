@@ -11,8 +11,17 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="QFP_")
 
     research_dir: Path = _REPO_ROOT / "research"
-    cors_allow_origins: list[str] = ["http://localhost:3000"]
+    # Comma-separated, not a JSON list: pydantic-settings requires env vars
+    # for `list[str]` fields to be valid JSON, which is awkward on deploy
+    # platforms (Render, Railway, ...) that inject a single plain URL as a
+    # bare string — `QFP_CORS_ALLOW_ORIGINS=https://example.com` just works.
+    cors_allow_origins_csv: str = "http://localhost:3000"
     default_lookback_years: int = 5
+
+    @property
+    def cors_allow_origins(self) -> list[str]:
+        origins = self.cors_allow_origins_csv.split(",")
+        return [origin.strip() for origin in origins if origin.strip()]
 
     # Mirrors config/defaults.yaml's `auto_backtest` section: drives the
     # automatic, ticker-specific backtest that runs before the first (or

@@ -1,0 +1,46 @@
+# Render Blueprint — deploys both services from this one repo.
+# https://render.com/docs/blueprint-spec
+#
+# Usage: in the Render dashboard, New -> Blueprint -> pick this repo. Render
+# reads this file, shows a preview of both services below, and creates them
+# together with the env vars already wired up.
+#
+# Free-tier caveat: free web services have no persistent disk, so
+# research/ (price cache, backtests, per-ticker lookup tables) is wiped
+# every time the service restarts or wakes from idle — every ticker acts
+# like a first-ever analysis again. To make backtests actually stick,
+# upgrade the backend service to the "starter" plan and attach a disk:
+#
+#   plan: starter
+#   disk:
+#     name: research-data
+#     mountPath: /app/research
+#     sizeGB: 1
+
+services:
+  - type: web
+    name: quantforecast-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: QFP_CORS_ALLOW_ORIGINS_CSV
+        fromService:
+          type: web
+          name: quantforecast-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  - type: web
+    name: quantforecast-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    envVars:
+      - key: NEXT_PUBLIC_API_BASE_URL
+        fromService:
+          type: web
+          name: quantforecast-backend
+          envVarKey: RENDER_EXTERNAL_URL
