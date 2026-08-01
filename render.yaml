@@ -29,11 +29,11 @@ services:
       - key: QFP_CORS_ALLOW_ORIGINS_CSV
         fromService:
           type: web
-          name: quantforecast-frontend
+          name: quantforecast
           envVarKey: RENDER_EXTERNAL_URL
 
   - type: web
-    name: quantforecast-frontend
+    name: quantforecast
     runtime: docker
     dockerfilePath: ./frontend/Dockerfile
     # Root, not ./frontend: the frontend imports shared types from
