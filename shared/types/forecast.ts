@@ -25,6 +25,9 @@ export interface RiskAnalyticsInfo {
 export interface FanChartInfo {
   horizon_days: number[];
   percentiles: Record<string, number[]>; // e.g. "p5" -> values
+  /** A small subsample of raw simulated trajectories (not the full n_sims
+   * run) — each inner array is one path's price at every horizon day. */
+  sample_paths: number[][];
 }
 
 export interface DensityInfo {

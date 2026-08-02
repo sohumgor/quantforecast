@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-
-import { ModeProvider } from "@/lib/hooks/useMode";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 
@@ -15,8 +13,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Display face for the landing page's headline type only — everything else
+// (body copy, dashboard UI) stays on Geist Sans so the product itself never
+// feels re-skinned.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "QuantForecastPlatform",
+  title: "MarketLens",
   description: "Adaptive quantitative forecasting and risk analysis platform.",
 };
 
@@ -28,11 +35,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <ModeProvider>{children}</ModeProvider>
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

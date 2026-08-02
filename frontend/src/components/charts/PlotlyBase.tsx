@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { Config, Data, Layout } from "plotly.js";
+import type { Config, Data, Layout, PlotMouseEvent } from "plotly.js";
 import type { CSSProperties } from "react";
 
 // Loaded via the small `plotly.js-dist-min` bundle + react-plotly.js's
@@ -26,6 +26,9 @@ export interface PlotlyChartProps {
   style?: CSSProperties;
   className?: string;
   useResizeHandler?: boolean;
+  onClick?: (event: Readonly<PlotMouseEvent>) => void;
+  onHover?: (event: Readonly<PlotMouseEvent>) => void;
+  onUnhover?: (event: Readonly<PlotMouseEvent>) => void;
 }
 
 export function Plot({ useResizeHandler = true, style, ...rest }: PlotlyChartProps) {

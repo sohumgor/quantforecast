@@ -30,6 +30,7 @@ class RiskAnalyticsInfo(BaseModel):
 class FanChartInfo(BaseModel):
     horizon_days: list[int]
     percentiles: dict[str, list[float]]
+    sample_paths: list[list[float]] = Field(default_factory=list)
 
 
 class DensityInfo(BaseModel):

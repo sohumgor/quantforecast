@@ -19,7 +19,7 @@
 
 services:
   - type: web
-    name: quantforecast-backend
+    name: marketlens-backend
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
@@ -29,11 +29,11 @@ services:
       - key: QFP_CORS_ALLOW_ORIGINS_CSV
         fromService:
           type: web
-          name: quantforecast
+          name: marketlens
           envVarKey: RENDER_EXTERNAL_URL
 
   - type: web
-    name: quantforecast
+    name: marketlens
     runtime: docker
     dockerfilePath: ./frontend/Dockerfile
     # Root, not ./frontend: the frontend imports shared types from
@@ -45,5 +45,5 @@ services:
       - key: NEXT_PUBLIC_API_BASE_URL
         fromService:
           type: web
-          name: quantforecast-backend
+          name: marketlens-backend
           envVarKey: RENDER_EXTERNAL_URL

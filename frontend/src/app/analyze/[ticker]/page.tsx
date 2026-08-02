@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import type {
   CompanyInfoResponse,
   FeatureSetResponse,
@@ -8,7 +8,6 @@ import type {
   RegimeTimelineResponse,
 } from "@shared/types";
 
-import { ConfidenceConeChart } from "@/components/charts/ConfidenceConeChart";
 import { FeatureImportanceChart } from "@/components/charts/FeatureImportanceChart";
 import { HistoricalVolChart } from "@/components/charts/HistoricalVolChart";
 import { MonteCarloFanChart } from "@/components/charts/MonteCarloFanChart";
@@ -35,7 +34,6 @@ import { getFeatures } from "@/lib/api/features";
 import { getRegimeHistory } from "@/lib/api/regime";
 import { useAnalysis } from "@/lib/hooks/useAnalysis";
 import { useApiResource } from "@/lib/hooks/useApiResource";
-import { useMode } from "@/lib/hooks/useMode";
 import { useTickerReadiness } from "@/lib/hooks/useTickerReadiness";
 import { buildExecutiveSummary } from "@/lib/interpret/executiveSummary";
 import {
@@ -52,6 +50,7 @@ import {
   compareVolatilityToHistory,
   VOLATILITY_LEVEL_ICON,
 } from "@/lib/interpret/volatility";
+import { recordRecentSearch } from "@/lib/recentSearches";
 
 interface AnalyzePageProps {
   params: Promise<{ ticker: string }>;
@@ -60,7 +59,6 @@ interface AnalyzePageProps {
 export default function AnalyzePage({ params }: AnalyzePageProps) {
   const { ticker: rawTicker } = use(params);
   const ticker = rawTicker.toUpperCase();
-  const { mode } = useMode();
   const [horizonDays, setHorizonDays] = useState(DEFAULT_HORIZON_DAYS);
 
   const readiness = useTickerReadiness(ticker);
@@ -76,6 +74,10 @@ export default function AnalyzePage({ params }: AnalyzePageProps) {
     [ticker, readiness.ready],
   );
   const company = useApiResource<CompanyInfoResponse>(() => getCompanyInfo(ticker), [ticker]);
+
+  useEffect(() => {
+    if (data) recordRecentSearch(ticker);
+  }, [data, ticker]);
 
   // A ticker with no fresh per-ticker backtest gets the full progress
   // workflow instead of a bare skeleton — through both the backtest job
@@ -130,7 +132,6 @@ export default function AnalyzePage({ params }: AnalyzePageProps) {
     );
   }
 
-  const isAdvanced = mode === "advanced";
   const horizonOption = FORECAST_HORIZONS.find((h) => h.days === horizonDays) ?? FORECAST_HORIZONS[1];
   const historyDays = features.data?.rows.length ?? null;
   const todaysMove = features.data?.latest.return;
@@ -224,7 +225,7 @@ export default function AnalyzePage({ params }: AnalyzePageProps) {
           />
 
           <ChartCard
-            title={isAdvanced ? "Monte Carlo Forecast (Full Detail)" : "Price Forecast"}
+            title="Price Forecast"
             explanation={`${data.selected_model.display_name} projects ${data.ticker}'s price forward from thousands of simulated scenarios.`}
             interpretation={
               <ForecastHighlights
@@ -237,19 +238,11 @@ export default function AnalyzePage({ params }: AnalyzePageProps) {
               />
             }
           >
-            {isAdvanced ? (
-              <MonteCarloFanChart
-                fanChart={data.fan_chart}
-                currentPrice={data.current_price}
-                startDate={forecastOrigin}
-              />
-            ) : (
-              <ConfidenceConeChart
-                fanChart={data.fan_chart}
-                currentPrice={data.current_price}
-                startDate={forecastOrigin}
-              />
-            )}
+            <MonteCarloFanChart
+              fanChart={data.fan_chart}
+              currentPrice={data.current_price}
+              startDate={forecastOrigin}
+            />
           </ChartCard>
         </div>
 
@@ -347,16 +340,14 @@ export default function AnalyzePage({ params }: AnalyzePageProps) {
           </ChartCard>
         </div>
 
-        {isAdvanced ? (
-          <AdvancedDiagnosticsPanel
-            model={data.selected_model}
-            risk={data.risk_analytics}
-            regime={data.regime}
-            tickerSymbol={data.ticker}
-            performance={performance.data}
-            performanceLoading={performance.loading}
-          />
-        ) : null}
+        <AdvancedDiagnosticsPanel
+          model={data.selected_model}
+          risk={data.risk_analytics}
+          regime={data.regime}
+          tickerSymbol={data.ticker}
+          performance={performance.data}
+          performanceLoading={performance.loading}
+        />
 
         {timeline.loading || features.loading ? (
           <p className="flex items-center gap-2 text-xs text-zinc-400 dark:text-zinc-600">

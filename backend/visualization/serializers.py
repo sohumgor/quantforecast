@@ -13,10 +13,13 @@ from visualization.chart_payloads import (
 )
 
 DEFAULT_FAN_PERCENTILES: tuple[float, ...] = (5, 25, 50, 75, 95)
+DEFAULT_N_SAMPLE_PATHS = 40
 
 
 def serialize_fan_chart(
-    paths: SimulationPaths, percentiles: tuple[float, ...] = DEFAULT_FAN_PERCENTILES
+    paths: SimulationPaths,
+    percentiles: tuple[float, ...] = DEFAULT_FAN_PERCENTILES,
+    n_sample_paths: int = DEFAULT_N_SAMPLE_PATHS,
 ) -> FanChartPayload:
     """Converts simulated paths into JSON-safe percentile-band traces for a
     Plotly fan chart. Serialization only — no server-side chart rendering or
@@ -27,7 +30,13 @@ def serialize_fan_chart(
     percentile_bands = {
         f"p{p:g}": percentile_values[i].tolist() for i, p in enumerate(percentiles)
     }
-    return FanChartPayload(horizon_days=horizon_days, percentiles=percentile_bands)
+    n_sims = paths.paths.shape[0]
+    sample_size = min(n_sample_paths, n_sims)
+    sample_idx = np.random.default_rng().choice(n_sims, size=sample_size, replace=False)
+    sample_paths = paths.paths[sample_idx].tolist()
+    return FanChartPayload(
+        horizon_days=horizon_days, percentiles=percentile_bands, sample_paths=sample_paths
+    )
 
 
 def serialize_density(paths: SimulationPaths, n_bins: int = 50) -> DensityPayload:

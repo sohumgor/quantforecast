@@ -20,7 +20,7 @@ export function TickerSearchBar() {
     <div className="flex w-full flex-col items-center gap-4">
       <form
         onSubmit={handleSubmit}
-        className="flex w-full items-center gap-2 rounded-full border border-zinc-200 bg-white px-2 py-2 shadow-sm transition focus-within:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:focus-within:border-zinc-600"
+        className="flex w-full items-center gap-2 rounded-full border border-zinc-200 bg-white px-2 py-2 shadow-sm transition-all duration-200 focus-within:border-zinc-400 focus-within:shadow-md dark:border-zinc-800 dark:bg-zinc-950 dark:focus-within:border-zinc-600"
       >
         <input
           value={ticker}
@@ -32,7 +32,7 @@ export function TickerSearchBar() {
         />
         <button
           type="submit"
-          className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-medium text-white transition-all duration-200 hover:scale-[1.03] hover:bg-zinc-700 active:scale-[0.97] dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
           Analyze
         </button>
@@ -45,7 +45,7 @@ export function TickerSearchBar() {
             key={example}
             type="button"
             onClick={() => router.push(`/analyze/${example}`)}
-            className="rounded-full border border-zinc-200 px-2.5 py-1 font-mono transition hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:text-zinc-100"
+            className="rounded-full border border-zinc-200 px-2.5 py-1 font-mono transition-all duration-150 hover:-translate-y-0.5 hover:border-zinc-400 hover:text-zinc-900 active:translate-y-0 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:text-zinc-100"
           >
             {example}
           </button>

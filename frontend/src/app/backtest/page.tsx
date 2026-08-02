@@ -183,40 +183,6 @@ export default function BacktestPage() {
                 required
               />
             </label>
-            <label className="flex flex-col gap-1 text-sm">
-              <span className="text-zinc-500 dark:text-zinc-400">Forecast horizon (days)</span>
-              <input
-                type="number"
-                min={1}
-                value={horizonDays}
-                onChange={(e) => setHorizonDays(Number(e.target.value))}
-                className={inputClasses}
-                required
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-sm">
-              <span className="text-zinc-500 dark:text-zinc-400">Simulations per window</span>
-              <input
-                type="number"
-                min={100}
-                step={100}
-                value={nSims}
-                onChange={(e) => setNSims(Number(e.target.value))}
-                className={inputClasses}
-                required
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-sm">
-              <span className="text-zinc-500 dark:text-zinc-400">Window step (days)</span>
-              <input
-                type="number"
-                min={1}
-                value={windowStepDays}
-                onChange={(e) => setWindowStepDays(Number(e.target.value))}
-                className={inputClasses}
-                required
-              />
-            </label>
 
             <div className="sm:col-span-2 lg:col-span-3">
               <span className="mb-2 block text-sm text-zinc-500 dark:text-zinc-400">
@@ -241,6 +207,50 @@ export default function BacktestPage() {
                     </button>
                   ))}
               </div>
+            </div>
+
+            <div className="sm:col-span-2 lg:col-span-3">
+              <Disclosure
+                title="Advanced options"
+                summary="Forecast horizon, simulation count, and window step — the defaults work well for most tickers."
+              >
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <label className="flex flex-col gap-1 text-sm">
+                    <span className="text-zinc-500 dark:text-zinc-400">Forecast horizon (days)</span>
+                    <input
+                      type="number"
+                      min={1}
+                      value={horizonDays}
+                      onChange={(e) => setHorizonDays(Number(e.target.value))}
+                      className={inputClasses}
+                      required
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1 text-sm">
+                    <span className="text-zinc-500 dark:text-zinc-400">Simulations per window</span>
+                    <input
+                      type="number"
+                      min={100}
+                      step={100}
+                      value={nSims}
+                      onChange={(e) => setNSims(Number(e.target.value))}
+                      className={inputClasses}
+                      required
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1 text-sm">
+                    <span className="text-zinc-500 dark:text-zinc-400">Window step (days)</span>
+                    <input
+                      type="number"
+                      min={1}
+                      value={windowStepDays}
+                      onChange={(e) => setWindowStepDays(Number(e.target.value))}
+                      className={inputClasses}
+                      required
+                    />
+                  </label>
+                </div>
+              </Disclosure>
             </div>
 
             <div className="sm:col-span-2 lg:col-span-3">

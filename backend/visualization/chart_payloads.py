@@ -9,6 +9,10 @@ class FanChartPayload:
 
     horizon_days: list[int]
     percentiles: dict[str, list[float]] = field(default_factory=dict)  # e.g. "p5" -> values
+    # A small subsample of raw simulated trajectories (not the full n_sims run)
+    # for a "spaghetti plot" view — each inner list is one path's price at
+    # every horizon day.
+    sample_paths: list[list[float]] = field(default_factory=list)
 
 
 @dataclass(frozen=True)

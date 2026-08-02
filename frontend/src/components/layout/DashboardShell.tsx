@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-import { ModeToggle } from "./ModeToggle";
 
 interface DashboardShellProps {
   children: ReactNode;
@@ -18,10 +17,10 @@ export function DashboardShell({ children }: DashboardShellProps) {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <Link
             href="/"
-            className="font-mono text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-50"
+            className="font-display text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50"
             onClick={() => setMobileOpen(false)}
           >
-            QuantForecastPlatform
+            MarketLens
           </Link>
 
           <nav className="hidden items-center gap-5 text-sm text-zinc-500 dark:text-zinc-400 sm:flex">
@@ -34,7 +33,12 @@ export function DashboardShell({ children }: DashboardShellProps) {
             >
               Backtest
             </Link>
-            <ModeToggle />
+            <Link
+              href="/analyze"
+              className="rounded-full bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition-all duration-150 hover:scale-[1.03] hover:bg-zinc-700 active:scale-[0.97] dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            >
+              Analyze
+            </Link>
           </nav>
 
           <button
@@ -80,9 +84,13 @@ export function DashboardShell({ children }: DashboardShellProps) {
             >
               Backtest
             </Link>
-            <div className="px-2 py-2">
-              <ModeToggle />
-            </div>
+            <Link
+              href="/analyze"
+              onClick={() => setMobileOpen(false)}
+              className="mt-1 rounded-full bg-zinc-900 px-4 py-2 text-center font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            >
+              Analyze
+            </Link>
           </nav>
         ) : null}
       </header>

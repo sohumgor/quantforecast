@@ -1,4 +1,4 @@
-import { formatCurrency } from "@/lib/interpret/format";
+import { formatCurrency, formatSignedPercent } from "@/lib/interpret/format";
 
 interface ForecastHighlightsProps {
   tickerSymbol: string;
@@ -20,7 +20,8 @@ export function ForecastHighlights({
   highPrice,
   currentPrice,
 }: ForecastHighlightsProps) {
-  const medianChangePct = (medianPrice - currentPrice) / currentPrice;
+  const changePct = (price: number) => (price - currentPrice) / currentPrice;
+  const medianChangePct = changePct(medianPrice);
 
   return (
     <div>
@@ -29,12 +30,14 @@ export function ForecastHighlights({
           label="Worst Case"
           sub="Bottom 5% of outcomes"
           value={formatCurrency(lowPrice)}
+          changePct={changePct(lowPrice)}
           tone="red"
         />
         <HighlightStat
           label="Median Forecast"
           sub="Most likely outcome"
           value={formatCurrency(medianPrice)}
+          changePct={medianChangePct}
           tone="blue"
           emphasized
         />
@@ -42,11 +45,12 @@ export function ForecastHighlights({
           label="Best Case"
           sub="Top 5% of outcomes"
           value={formatCurrency(highPrice)}
+          changePct={changePct(highPrice)}
           tone="green"
         />
       </div>
       <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-        By {dateLabel}, simulations point to a typical price near{" "}
+        By {dateLabel}, simulations point to a median price near{" "}
         <span className="font-medium text-zinc-900 dark:text-zinc-50">
           {formatCurrency(medianPrice)}
         </span>{" "}
@@ -84,11 +88,12 @@ interface HighlightStatProps {
   label: string;
   sub: string;
   value: string;
+  changePct: number;
   tone: Tone;
   emphasized?: boolean;
 }
 
-function HighlightStat({ label, sub, value, tone, emphasized = false }: HighlightStatProps) {
+function HighlightStat({ label, sub, value, changePct, tone, emphasized = false }: HighlightStatProps) {
   return (
     <div
       className={`min-w-0 rounded-lg p-2.5 ring-1 sm:p-3.5 ${TONE_CLASSES[tone]} ${
@@ -102,6 +107,13 @@ function HighlightStat({ label, sub, value, tone, emphasized = false }: Highligh
       </p>
       <p className="mt-1 break-words text-base font-semibold tabular-nums text-zinc-900 dark:text-zinc-50 sm:text-2xl">
         {value}
+      </p>
+      <p
+        className={`mt-0.5 text-xs font-medium tabular-nums ${
+          changePct >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
+        }`}
+      >
+        {formatSignedPercent(changePct)} vs today
       </p>
       <p className="mt-0.5 hidden text-xs text-zinc-500 dark:text-zinc-400 sm:block">{sub}</p>
     </div>

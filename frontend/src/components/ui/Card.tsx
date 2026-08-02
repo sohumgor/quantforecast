@@ -11,7 +11,7 @@ interface CardProps {
 export function Card({ children, className = "", title, subtitle, action }: CardProps) {
   return (
     <div
-      className={`rounded-2xl border border-black/[.06] bg-white shadow-sm dark:border-white/[.08] dark:bg-zinc-950 ${className}`}
+      className={`motion-safe:animate-[fade-in-up_400ms_ease-out] rounded-2xl border border-black/[.06] bg-white shadow-sm transition-shadow duration-300 hover:shadow-md dark:border-white/[.08] dark:bg-zinc-950 ${className}`}
     >
       {(title ?? action) ? (
         <div className="flex items-start justify-between gap-4 border-b border-black/[.06] px-6 py-5 dark:border-white/[.08]">

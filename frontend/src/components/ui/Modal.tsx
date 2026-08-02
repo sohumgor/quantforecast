@@ -26,7 +26,7 @@ export function Modal({ title, subtitle, onClose, children }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-8 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 py-8 backdrop-blur-sm motion-safe:animate-[backdrop-in_180ms_ease-out] sm:items-center"
       onClick={onClose}
     >
       <div
@@ -34,7 +34,7 @@ export function Modal({ title, subtitle, onClose, children }: ModalProps) {
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-lg rounded-2xl border border-black/[.06] bg-white shadow-xl dark:border-white/[.08] dark:bg-zinc-950"
+        className="w-full max-w-lg rounded-2xl border border-black/[.06] bg-white shadow-xl motion-safe:animate-[modal-panel-in_200ms_cubic-bezier(0.16,1,0.3,1)] dark:border-white/[.08] dark:bg-zinc-950"
       >
         <div className="flex items-start justify-between gap-4 border-b border-black/[.06] px-6 py-5 dark:border-white/[.08]">
           <div>

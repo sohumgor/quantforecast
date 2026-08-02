@@ -39,7 +39,7 @@ export function buildForecastSummary(input: ForecastSummaryInput): ForecastSumma
     `Based on thousands of simulations, ${leadClause} over the next ${horizonLabel.toLowerCase()}, ` +
     `with about a ${formatPercent(probPositiveReturn)} chance of finishing above today's price. ` +
     `Most simulated outcomes fall between ${formatCurrency(lowPrice)} and ${formatCurrency(highPrice)}, ` +
-    `with a typical (median) forecast near ${formatCurrency(medianPrice)}. ${dir}`;
+    `with a median forecast near ${formatCurrency(medianPrice)}. ${dir}`;
 
   return { paragraph, directionSentence: dir };
 }

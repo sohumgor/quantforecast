@@ -180,6 +180,10 @@ def analyze(
             drawdown=DrawdownInfo(**asdict(risk.drawdown)),
             distribution=DistributionInfo(**asdict(risk.distribution)),
         ),
-        fan_chart=FanChartInfo(horizon_days=fan.horizon_days, percentiles=fan.percentiles),
+        fan_chart=FanChartInfo(
+            horizon_days=fan.horizon_days,
+            percentiles=fan.percentiles,
+            sample_paths=fan.sample_paths,
+        ),
         density=DensityInfo(bin_edges=density.bin_edges, counts=density.counts),
     )

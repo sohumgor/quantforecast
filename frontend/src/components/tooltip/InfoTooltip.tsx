@@ -32,14 +32,14 @@ export function InfoTooltip({ metricKey, className = "" }: InfoTooltipProps) {
         onClick={() => setOpen((o) => !o)}
         aria-label={`What is ${entry.title}?`}
         aria-expanded={open}
-        className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-zinc-400 ring-1 ring-inset ring-zinc-300 transition hover:text-zinc-700 hover:ring-zinc-400 dark:text-zinc-500 dark:ring-zinc-700 dark:hover:text-zinc-200"
+        className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-zinc-400 ring-1 ring-inset ring-zinc-300 transition-all duration-150 hover:scale-110 hover:text-zinc-700 hover:ring-zinc-400 dark:text-zinc-500 dark:ring-zinc-700 dark:hover:text-zinc-200"
       >
         i
       </button>
       {open ? (
         <div
           role="tooltip"
-          className="absolute left-1/2 top-6 z-30 w-64 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white p-3 text-xs shadow-lg dark:border-zinc-700 dark:bg-zinc-900"
+          className="absolute left-1/2 top-6 z-30 w-64 -translate-x-1/2 origin-top rounded-lg border border-zinc-200 bg-white p-3 text-xs shadow-lg motion-safe:animate-[tooltip-in_160ms_ease-out] dark:border-zinc-700 dark:bg-zinc-900"
         >
           <p className="font-semibold text-zinc-900 dark:text-zinc-50">{entry.title}</p>
           <p className="mt-1 leading-relaxed text-zinc-600 dark:text-zinc-300">
