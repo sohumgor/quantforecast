@@ -20,7 +20,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             className="font-display text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50"
             onClick={() => setMobileOpen(false)}
           >
-            MarketLens
+            QuantForecast
           </Link>
 
           <nav className="hidden items-center gap-5 text-sm text-zinc-500 dark:text-zinc-400 sm:flex">

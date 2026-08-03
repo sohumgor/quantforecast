@@ -1,4 +1,4 @@
-# MarketLens
+# QuantForecast
 
 An adaptive quantitative forecasting and risk-analysis platform for publicly
 traded equities. It downloads historical price data, engineers statistical

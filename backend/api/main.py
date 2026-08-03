@@ -19,7 +19,7 @@ from api.routers import (
 
 def create_app() -> FastAPI:
     settings = Settings()
-    app = FastAPI(title="MarketLens API", version="0.1.0")
+    app = FastAPI(title="QuantForecast API", version="0.1.0")
 
     app.add_middleware(
         CORSMiddleware,

@@ -36,7 +36,7 @@ export function ComparisonSection() {
         <Reveal delay={100}>
           <div className="h-full rounded-2xl border border-zinc-900/10 bg-gradient-to-br from-white to-zinc-50 p-6 shadow-sm dark:border-white/[.12] dark:from-zinc-950 dark:to-zinc-900">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
-              MarketLens
+              QuantForecast
             </p>
             <ul className="mt-4 flex flex-col gap-3">
               {OURS.map((item) => (

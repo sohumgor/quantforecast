@@ -23,7 +23,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "MarketLens",
+  title: "QuantForecast",
   description: "Adaptive quantitative forecasting and risk analysis platform.",
 };
 

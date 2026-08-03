@@ -1,9 +1,11 @@
-# Render Blueprint — deploys both services from this one repo.
+# Render Blueprint — deploys the backend only. The frontend deploys
+# separately on Vercel (see documentation/deploy.md), since Next.js on
+# Vercel gets a stable, always-warm public URL for free, whereas Render's
+# free tier spins the frontend down on idle.
 # https://render.com/docs/blueprint-spec
 #
 # Usage: in the Render dashboard, New -> Blueprint -> pick this repo. Render
-# reads this file, shows a preview of both services below, and creates them
-# together with the env vars already wired up.
+# reads this file and creates the backend service with env vars wired up.
 #
 # Free-tier caveat: free web services have no persistent disk, so
 # research/ (price cache, backtests, per-ticker lookup tables) is wiped
@@ -19,7 +21,7 @@
 
 services:
   - type: web
-    name: marketlens-backend
+    name: quantforecast-backend
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
@@ -27,23 +29,4 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: QFP_CORS_ALLOW_ORIGINS_CSV
-        fromService:
-          type: web
-          name: marketlens
-          envVarKey: RENDER_EXTERNAL_URL
-
-  - type: web
-    name: marketlens
-    runtime: docker
-    dockerfilePath: ./frontend/Dockerfile
-    # Root, not ./frontend: the frontend imports shared types from
-    # ../shared/types (see frontend/Dockerfile's top comment), so the build
-    # context has to include that sibling directory too.
-    dockerContext: .
-    plan: free
-    envVars:
-      - key: NEXT_PUBLIC_API_BASE_URL
-        fromService:
-          type: web
-          name: marketlens-backend
-          envVarKey: RENDER_EXTERNAL_URL
+        value: https://quantforecast.vercel.app

@@ -22,7 +22,7 @@ export function LandingHero() {
         </h1>
 
         <p className="max-w-lg text-balance text-base leading-relaxed text-zinc-500 dark:text-zinc-400 sm:max-w-xl sm:text-lg">
-          MarketLens runs regime-aware Monte Carlo simulations and
+          QuantForecast runs regime-aware Monte Carlo simulations and
           historically validated models against any publicly traded ticker —
           built on statistical rigor, not guesswork.
         </p>

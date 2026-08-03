@@ -39,7 +39,7 @@ export function WhyFeatures() {
   return (
     <section className="flex flex-col gap-10 py-16 sm:py-20">
       <SectionHeading
-        kicker="Why MarketLens"
+        kicker="Why QuantForecast"
         title="Built like a research desk, not a stock-tip site"
       />
       <div className="grid grid-cols-3 gap-2 sm:gap-5">
